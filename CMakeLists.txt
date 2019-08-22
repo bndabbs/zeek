@@ -14,6 +14,7 @@ if ( NOT CMAKE_INSTALL_LIBDIR )
 endif ()
 
 include(cmake/CommonCMakeConfig.cmake)
+include(GNUInstallDirs)
 include(cmake/FindClangTidy.cmake)
 
 ########################################################################
@@ -34,7 +35,7 @@ endif ()
 set(ZEEK_ROOT_DIR ${CMAKE_INSTALL_PREFIX})
 if (NOT ZEEK_SCRIPT_INSTALL_PATH)
     # set the default Zeek script installation path (user did not specify one)
-    set(ZEEK_SCRIPT_INSTALL_PATH ${ZEEK_ROOT_DIR}/share/zeek)
+    set(ZEEK_SCRIPT_INSTALL_PATH ${CMAKE_INSTALL_DATADIR}/zeek)
 endif ()
 
 if (NOT ZEEK_MAN_INSTALL_PATH)
@@ -47,7 +48,7 @@ endif ()
 get_filename_component(ZEEK_SCRIPT_INSTALL_PATH ${ZEEK_SCRIPT_INSTALL_PATH}
     ABSOLUTE)
 
-set(BRO_PLUGIN_INSTALL_PATH ${ZEEK_ROOT_DIR}/lib/zeek/plugins CACHE STRING "Installation path for plugins" FORCE)
+  set(BRO_PLUGIN_INSTALL_PATH ${CMAKE_INSTALL_FULL_LIBDIR}/zeek/plugins CACHE STRING "Installation path for plugins" FORCE)
 
 configure_file(zeek-path-dev.in ${CMAKE_CURRENT_BINARY_DIR}/zeek-path-dev)
 execute_process(COMMAND "${CMAKE_COMMAND}" -E create_symlink
@@ -302,8 +303,8 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/zeek-config.h.in
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/bro-config.h.in
                ${CMAKE_CURRENT_BINARY_DIR}/bro-config.h)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/zeek-config.h DESTINATION include/zeek)
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/bro-config.h DESTINATION include/zeek)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/zeek-config.h DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/zeek)
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/bro-config.h DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/zeek)
 
 if ( CAF_ROOT_DIR )
   set(ZEEK_CONFIG_CAF_ROOT_DIR ${CAF_ROOT_DIR})
@@ -325,9 +326,9 @@ endif ()
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/zeek-config.in
                ${CMAKE_CURRENT_BINARY_DIR}/zeek-config @ONLY)
-install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/zeek-config DESTINATION bin)
+install(PROGRAMS ${CMAKE_CURRENT_BINARY_DIR}/zeek-config DESTINATION ${CMAKE_INSTALL_BINDIR})
 
-install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/cmake DESTINATION share/zeek
+install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/cmake DESTINATION ${CMAKE_INSTALL_DATADIR}/zeek
         USE_SOURCE_PERMISSIONS)
 
 # Install wrapper script for Bro-to-Zeek renaming.
