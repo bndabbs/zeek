@@ -363,7 +363,7 @@ if ( NOT "${bro_LINKER_FLAGS}" STREQUAL "" )
     set_target_properties(bro PROPERTIES LINK_FLAGS "${bro_LINKER_FLAGS}")
 endif ()
 
-install(TARGETS bro DESTINATION bin)
+install(TARGETS bro DESTINATION ${CMAKE_INSTALL_BINDIR})
 
 set(BRO_EXE bro
     CACHE STRING "Bro executable binary" FORCE)
@@ -415,7 +415,7 @@ install(CODE "
 ")
 
 install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/
-        DESTINATION include/bro
+        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/bro
         FILES_MATCHING
         PATTERN "*.h"
         PATTERN "*.pac"
@@ -423,7 +423,7 @@ install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/
 )
 
 install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/
-        DESTINATION include/bro
+        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/bro
         FILES_MATCHING
         PATTERN "*.bif.func_h"
         PATTERN "*.bif.netvar_h"
@@ -432,5 +432,5 @@ install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/
 )
 
 install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/sqlite3.h
-        DESTINATION include/bro/3rdparty
+        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/bro/3rdparty
 )
